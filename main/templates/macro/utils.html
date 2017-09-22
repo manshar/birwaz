@@ -37,10 +37,10 @@
   # if next_url or prev_url
     <ul class="pager">
       # if prev_url
-        <li><a href="{{prev_url}}" rel="nofollow"><span class="fa fa-long-arrow-left"></span> {{prev_caption|safe if prev_caption else 'Prev Page'}}</a></li>
+        <li><a href="{{prev_url}}" rel="nofollow"><span class="fa fa-long-arrow-right"></span> {{prev_caption|safe if prev_caption else 'Prev Page'}}</a></li>
       # endif
       # if next_url
-        <li><a href="{{next_url}}" rel="nofollow">{{next_caption|safe if next_caption else 'Next Page'}} <span class="fa fa-long-arrow-right"></span> </a></li>
+        <li><a href="{{next_url}}" rel="nofollow">{{next_caption|safe if next_caption else 'Next Page'}} <span class="fa fa-long-arrow-left"></span> </a></li>
       # endif
     </ul>
   # endif

@@ -1,0 +1,17 @@
+<div class="alert alert-warning alert-dismissable {{'hide' if resource_dbs | count > 0}}">
+  There are no resources
+</div>
+
+<div class="card-columns">
+  # for resource_db in resource_dbs
+  <div class="card">
+    <img class="card-img-top img-fluid" src="{{resource_db.image_url}}=w300" width="100%" alt="Card image cap">
+    <div class="card-block">
+      <h4 class="card-title hide">
+      <img class="img-circle" src="{{resource_db.user_key.get().avatar_url_size(64)}}" alt="Avatar of {{resource_db.user_key.get().name}}" width="32">
+        {{resource_db.user_key.get().name}}
+      </h4>
+    </div>
+  </div>
+  # endfor
+</div>

@@ -6,13 +6,25 @@ import config
 
 from main import app
 
+import model
+import util
+
 
 ###############################################################################
 # Welcome
 ###############################################################################
 @app.route('/')
 def welcome():
-  return flask.render_template('welcome.html', html_class='welcome')
+  resource_dbs, next_cursor = model.Resource.get_dbs(
+    limit=10, prev_cursor=True, order='-created')
+
+  return flask.render_template(
+    'welcome.html',
+    html_class='welcome',
+    resource_dbs=resource_dbs,
+    next_url=util.generate_next_url(next_cursor, base_url=flask.url_for('resource_grid')),
+    api_url=flask.url_for('api.resource.list'),
+  )
 
 
 ###############################################################################

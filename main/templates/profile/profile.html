@@ -17,4 +17,9 @@
     <span class="fa fa-sign-in fa-fw"></span>
     {{utils.auth_icons(user_db)}}
   </h3>
+
+  <div>
+  # include 'bit/resource_grid_partial.html'
+  {{utils.next_link(next_url, prev_url=prev_url, next_caption='الصفحة التالية')}}
+  </div>
 # endblock

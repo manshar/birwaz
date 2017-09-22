@@ -17,16 +17,47 @@ from main import app
 # Profile View
 ###############################################################################
 @app.route('/profile/')
-@auth.login_required
+# @auth.login_required
 def profile():
   user_db = auth.current_user_db()
 
+  resource_dbs, resource_cursor = user_db.get_resource_dbs(
+      order='-created', limit=10, prev_cursor=True)
+
   return flask.render_template(
     'profile/profile.html',
-    title=user_db.name,
+    title=user_db.name or 'مستخدم إدّيني صور',
     html_class='profile-view',
     user_db=user_db,
+    resource_dbs=resource_dbs,
+    next_url=util.generate_next_url(resource_cursor.get('next')),
+    prev_url=util.generate_next_url(resource_cursor.get('prev')),
+    api_url=flask.url_for('api.admin.user', user_key=user_db.key.urlsafe()) if user_db.key else ''
   )
+
+
+@app.route('/profile/<int:user_id>/', methods=['GET'])
+def view_profile(user_id=0):
+  print user_id
+  if user_id:
+    user_db = model.User.get_by_id(user_id)
+  if not user_db:
+    flask.abort(404)
+
+  resource_dbs, resource_cursor = user_db.get_resource_dbs(
+      order='-created', limit=10, prev_cursor=True)
+
+  return flask.render_template(
+    'profile/profile.html',
+    title=user_db.name or 'مستخدم إدّيني صور',
+    html_class='profile-view',
+    user_db=user_db,
+    resource_dbs=resource_dbs,
+    next_url=util.generate_next_url(resource_cursor.get('next')),
+    prev_url=util.generate_next_url(resource_cursor.get('prev')),
+    api_url=flask.url_for('api.admin.user', user_key=user_db.key.urlsafe()) if user_db.key else ''
+  )
+
 
 
 ###############################################################################

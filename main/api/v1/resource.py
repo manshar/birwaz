@@ -23,7 +23,7 @@ from main import api_v1
 ###############################################################################
 @api_v1.resource('/resource/', endpoint='api.resource.list')
 class ResourceListAPI(flask_restful.Resource):
-  @auth.admin_required
+  # @auth.admin_required
   def get(self):
     resource_keys = util.param('resource_keys', list)
     if resource_keys:

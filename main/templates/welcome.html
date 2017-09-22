@@ -3,29 +3,51 @@
 # block header
   <div class="jumbotron">
     <div class="container">
-      <h1>{{config.CONFIG_DB.brand_name}}</h1>
-      <p>Hello, world!</p>
+      <h1 class="header-brand">{{config.CONFIG_DB.brand_name}}</h1>
+      <hr class="my-4" />
+      <h3 class="lead">
+        صور احترافية وجميلة بطابع عربي مجانية الاستخدام بأي شكل تريد!
+        <small class="text-muted">
+          مهداة لكم من مجتمع مصورين عرب كرماء
+        </small>
+      </h3>
+      <p class="lead">
+        <a class="btn btn-primary btn-lg" href="{{url_for('resource_upload')}}" title="رفع صور" role="button">
+          <span class="fa fa-plus fa-fw"></span>
+          ارفع صورك الآن
+        </a>
+      </p>
     </div>
   </div>
 # endblock
 
 # block content
-  <div class="row">
+  <div class="row flip">
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h3>صور رائعة عربية عالية الجودة</h3>
+      <p>صور عالية الجودة (٣ ميجابيكسيل وأكثر) ومصورة باحترافية ومنتقاة من مجتمع من المصورين والمدراء</p>
     </div>
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h3>مجانية الاستخدام في مشاريعكم</h3>
+      <p>جميع الصور في إدّيني صور مقدمة برخصة الاستخدام العام CC0 حيث يتيح لكم استخدام الصور بأي مشروع تريدون سواء ربحي أو غيره.</p>
     </div>
     <div class="col-sm-6 col-md-4 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h3>ابني صيت لك كمصور محترف</h3>
+      <p>لكل مصور صفحته الخاصة لبناء ملفكم الشخصي وبناء شبكة من معجبينكم ومتابعينكم وتحميل الجديد من صوركم</p>
     </div>
     <div class="col-sm-6 col-md-12 col-lg-3">
-      <h2>Heading</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+      <h3>ابحث بكلمات مفتاحية ووصفية</h3>
+      <p>ابحث عن الصورة المناسبة لمشروعك باستخدام محرك البحث بوصف ما بالصورة من كلمات. مثل: جبال رملية</p>
     </div>
   </div>
+
+  <h2>
+    استعرض الصور
+  </h2>
+  # include 'bit/resource_grid_partial.html'
+
+  {{utils.next_link(next_url, next_caption='تصفح المزيد من الصور')}}
+
 # endblock
+
+

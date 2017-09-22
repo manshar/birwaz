@@ -35,19 +35,43 @@ def resource_upload():
 
 
 ###############################################################################
-# List
+# Admin List
 ###############################################################################
-@app.route('/resource/', endpoint='resource_list')
-@auth.login_required
+@app.route('/resource/list', endpoint='resource_list')
+@auth.admin_required
 def resource_list():
-  resource_dbs, resource_cursor = auth.current_user_db().get_resource_dbs()
+  # resource_dbs, resource_cursor = auth.current_user_db().get_resource_dbs()
+  resource_dbs, cursors = model.Resource.get_dbs(
+    limit=10, prev_cursor=True, order='-created')
 
   return flask.render_template(
     'resource/resource_list.html',
     html_class='resource-list',
     title='Resource List',
     resource_dbs=resource_dbs,
-    next_url=util.generate_next_url(resource_cursor),
+    next_url=util.generate_next_url(cursors.get('next')),
+    prev_url=util.generate_next_url(cursors.get('prev')),
+    api_url=flask.url_for('api.resource.list'),
+  )
+
+
+###############################################################################
+# Public List
+###############################################################################
+@app.route('/resource/', endpoint='resource_grid')
+@auth.admin_required
+def resource_list():
+  # resource_dbs, resource_cursor = auth.current_user_db().get_resource_dbs()
+  resource_dbs, cursors = model.Resource.get_dbs(
+    limit=10, prev_cursor=True, order='-created')
+
+  return flask.render_template(
+    'resource/resource_grid.html',
+    html_class='resource-grid',
+    title='Resource Grid',
+    resource_dbs=resource_dbs,
+    next_url=util.generate_next_url(cursors.get('next')),
+    prev_url=util.generate_next_url(cursors.get('prev')),
     api_url=flask.url_for('api.resource.list'),
   )
 
