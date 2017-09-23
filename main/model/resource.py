@@ -19,6 +19,10 @@ class Resource(model.Base):
   content_type = ndb.StringProperty(default='')
   size = ndb.IntegerProperty(default=0)
 
+  width = ndb.IntegerProperty(default=0)
+  height = ndb.IntegerProperty(default=0)
+  hotness = ndb.IntegerProperty(default=-1)
+
   @ndb.ComputedProperty
   def size_human(self):
     return util.size_human(self.size or 0)
@@ -42,6 +46,10 @@ class Resource(model.Base):
   @property
   def serve_url(self):
     return '%s/serve/%s' % (flask.request.url_root[:-1], self.blob_key)
+
+  def reset_hotness(self):
+    reviews = model.ResourceReview.query(ancestor=self.key).fetch(20)
+    self.hotness = sum([review.value for review in reviews])
 
   FIELDS = {
     'bucket_name': fields.String,

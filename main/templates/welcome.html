@@ -1,28 +1,29 @@
 # extends 'base.html'
+# import 'macro/utils.html' as utils
 
 # block header
   <div class="jumbotron">
     <div class="container">
       <h1 class="header-brand">{{config.CONFIG_DB.brand_name}}</h1>
-      <hr class="my-4" />
       <h3 class="lead">
         صور احترافية وجميلة بطابع عربي مجانية الاستخدام بأي شكل تريد!
-        <small class="text-muted">
-          مهداة لكم من مجتمع مصورين عرب كرماء
-        </small>
+
       </h3>
       <p class="lead">
         <a class="btn btn-primary btn-lg" href="{{url_for('resource_upload')}}" title="رفع صور" role="button">
           <span class="fa fa-plus fa-fw"></span>
-          ارفع صورك الآن
+          أرسلوا صوركم الآن
         </a>
+        <small class="text-muted">
+          وانضموا لمجتمع مصورين كرماء من العرب
+        </small>
       </p>
     </div>
   </div>
 # endblock
 
 # block content
-  <div class="row flip">
+  <div class="row flip features">
     <div class="col-sm-6 col-md-4 col-lg-3">
       <h3>صور رائعة عربية عالية الجودة</h3>
       <p>صور عالية الجودة (٣ ميجابيكسيل وأكثر) ومصورة باحترافية ومنتقاة من مجتمع من المصورين والمدراء</p>
@@ -41,7 +42,7 @@
     </div>
   </div>
 
-  <h2>
+  <h2 class="hide">
     استعرض الصور
   </h2>
   # include 'bit/resource_grid_partial.html'

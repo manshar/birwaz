@@ -85,8 +85,8 @@ class User(model.Base):
     )
     return not user_keys or self_key in user_keys and not user_keys[1:]
 
-  def get_resource_dbs(self, **kwargs):
-    return model.Resource.get_dbs(user_key=self.key, **kwargs)
+  def get_resource_dbs(self, query, **kwargs):
+    return model.Resource.get_dbs(query, user_key=self.key, **kwargs)
 
   FIELDS = {
     'active': fields.Boolean,

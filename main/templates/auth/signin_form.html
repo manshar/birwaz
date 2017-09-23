@@ -9,13 +9,13 @@
   {{forms.recaptcha_field(form.recaptcha)}}
   <div class="controls">
     <button type="submit" class="btn btn-block btn-lg btn-primary btn-loading" {{forms.data_loading_text()}}>
-      Sign in
+      تسجيل الدخول
     </button>
   </div>
   <div class="form-group">
     <div class="btn-group btn-group-justified form-control-static">
-      <a class="btn btn-link btn-xs ellipsis" href="{{url_for('user_forgot')}}">Forgot password?</a>
-      <a class="btn btn-link btn-xs ellipsis" href="{{url_for('signup', next=next_url)}}">Create new account</a>
+      <a class="btn btn-link btn-xs ellipsis" href="{{url_for('user_forgot')}}">نسيت كلمة المرور?</a>
+      <a class="btn btn-link btn-xs ellipsis" href="{{url_for('signup', next=next_url)}}">عمل حساب جديد</a>
     </div>
   </div>
 </form>

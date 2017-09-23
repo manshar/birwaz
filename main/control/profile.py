@@ -22,7 +22,8 @@ def profile():
   user_db = auth.current_user_db()
 
   resource_dbs, resource_cursor = user_db.get_resource_dbs(
-      order='-created', limit=10, prev_cursor=True)
+      model.Resource.query(model.Resource.hotness > 0),
+      order='-hotness', limit=10, prev_cursor=True)
 
   return flask.render_template(
     'profile/profile.html',
@@ -45,7 +46,8 @@ def view_profile(user_id=0):
     flask.abort(404)
 
   resource_dbs, resource_cursor = user_db.get_resource_dbs(
-      order='-created', limit=10, prev_cursor=True)
+      query=model.Resource.query(model.Resource.hotness > 0),
+      order='-hotness', limit=10, prev_cursor=True)
 
   return flask.render_template(
     'profile/profile.html',

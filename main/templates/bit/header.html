@@ -1,4 +1,4 @@
-<header class="navbar navbar-default navbar-fixed-top">
+<header class="navbar navbar-fixed-top">
   <div class="container">
     <div class="navbar-header navbar-right">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
@@ -11,15 +11,17 @@
     </div>
     <nav class="collapse navbar-collapse">
       <ul class="nav navbar-nav pull-left">
-        # if current_user.id > 0
-          <li class="{{'active' if html_class == 'resource-list' else ''}}">
-            <a href="{{url_for('resource_grid')}}"><span class="fa fa-fw fa-th"></span> تصفح الصور</a>
-          </li>
-        # endif
+        <li class="{{'active' if html_class == 'resource-list' else ''}}">
+          <a href="{{url_for('resource_grid')}}"><span class="fa fa-fw fa-th"></span> تصفح الصور</a>
+        </li>
         # include 'bit/contact_menu.html'
-      </ul>
-      <ul class="nav navbar-nav pull-left">
         # include 'bit/user_menu.html'
+        <li class="{{'hidden' if html_class == 'resource-upload' else ''}}">
+          <a class="btn btn-primary upload-btn" href="{{url_for('resource_upload')}}" title="رفع صور" role="button">
+            <span class="fa fa-plus fa-fw"></span>
+            أرسلوا صوركم الآن
+          </a>
+        </li>
       </ul>
     </nav>
   </div>

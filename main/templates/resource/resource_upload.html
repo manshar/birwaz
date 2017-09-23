@@ -2,11 +2,17 @@
 # import 'macro/utils.html' as utils
 
 # block content
-  <div class="page-header">
-    <h1>
-      {{utils.back_link('Back', 'resource_list')}}
-      {{title}}
-    </h1>
+  <div class="jumbotron text-center">
+    <h1>أرسلوا صوركم</h1>
+    <p><small>
+      سيتم مراجعة الصور ونشرها تحت ملفكم الشخصي إذا تم قبولهم
+    </small></p>
+    <p><small>
+      صوركم تنشر تحت رخصة الاستخدام الحر والعام
+    </small></p>
+    <p><small>
+      رجاءً أرسلوا الصور التي لديكم حقوق الملكية لها
+    </small></p>
   </div>
 
   <form id="upload" class="form-horizontal" method="POST" action="{{upload_url}}" enctype='multipart/form-data'>
@@ -14,20 +20,15 @@
       <div class='control-group pretty-file'>
         <div class='controls'>
           <input class="file" name="file[]" data-get-upload-url="{{get_upload_url}}" type="file" multiple="multiple">
-          <div class="input-group">
-            <span class="input-group-addon">Choose Files</span>
-            <input type="text" class="form-control">
-            <span class="input-group-btn">
-              <button class="btn btn-default" type="button">Browse</button>
-            </span>
+          <div class="input-group btn-block">
+            <button class="btn btn-primary btn-lg btn-block center upload-button" type="button">اختر ملفات صور لإرسالها</button>
           </div>
         </div>
       </div>
     </fieldset>
   </form>
-  <hr>
   <div class="drop-area">
-    drop files here
+    أو اسحبوا واتركوا صور من سطح المكتب هنا
   </div>
   <div class="row resource-uploads">
     <div class="col-lg-2 col-md-3 col-sm-4 col-xs-6 hide">

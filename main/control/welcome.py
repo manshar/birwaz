@@ -16,7 +16,8 @@ import util
 @app.route('/')
 def welcome():
   resource_dbs, next_cursor = model.Resource.get_dbs(
-    limit=10, prev_cursor=True, order='-created')
+    model.Resource.query(model.Resource.hotness > 0),
+    limit=20, prev_cursor=True, order='-hotness')
 
   return flask.render_template(
     'welcome.html',

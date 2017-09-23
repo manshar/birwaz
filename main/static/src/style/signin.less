@@ -6,7 +6,7 @@
 .btn-social {
   position: relative;
   padding-left: @height-base + @padding-base-horizontal;
-  text-align: left;
+  text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -80,7 +80,7 @@
 
 .btn-social(@color-bg, @color: #fff) {
   background-color: @color-bg;
-  .button-variant(@color, @color-bg, rgba(0,0,0,.2));
+  .button-variant(@color, @color-bg, rgba(0,0,0,0));
 }
 
 .auth {
@@ -111,3 +111,16 @@
 .btn-twitter       { .btn-social(#55acee); }
 .btn-vk            { .btn-social(#587ea3); }
 .btn-yahoo         { .btn-social(#720e9e); }
+
+
+.btn-lg {
+  border-radius: 0;
+}
+
+.checkbox.remember label {
+  padding-right: 20px;
+}
+
+.checkbox.remember input[type="checkbox"] {
+  margin-right: -20px;
+}

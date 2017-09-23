@@ -8,10 +8,12 @@
       # if html_class == 'profile-view'
         <div class="pull-right">
           <div class="btn-group">
+            # if current_user.id == user_db.key.id() or current_user.admin
             <a class="btn btn-default btn-xs" href="{{url_for('profile_update')}}">
               <span class="fa fa-edit"></span>
               Edit
             </a>
+            # endif
             # if config.CONFIG_DB.has_email_authentication
               <a class="btn btn-default btn-xs" href="{{url_for('profile_password')}}">
                 <span class="fa fa-lock fa-fw"></span>

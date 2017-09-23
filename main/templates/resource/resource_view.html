@@ -15,14 +15,14 @@
       </a>
       <button class="btn btn-danger btn-delete"
           data-api-url="{{url_for('api.resource', key=resource_db.key.urlsafe())}}"
-          data-redirect-url="{{url_for('resource_list')}}"
+          data-redirect-url="{{url_for('admin_resource_list')}}"
           title="Delete"
         >
         <span class="fa fa-trash-o"></span>
       </button>
     </div>
     <h1>
-      {{utils.back_link('Back to resource list', 'resource_list')}}
+      {{utils.back_link('Back to resource list', 'admin_resource_list')}}
       {{title}}
     </h1>
   </div>

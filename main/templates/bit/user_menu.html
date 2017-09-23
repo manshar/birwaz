@@ -6,17 +6,17 @@
       <b class="caret"></b>
     </a>
     <ul class="dropdown-menu">
-      <li><a href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> Profile</a></li>
+      <li><a href="{{url_for('profile')}}"><span class="fa fa-fw fa-user"></span> الملف الشخصي</a></li>
       # if current_user.admin
         <li class="divider"></li>
-        <li><a href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> Admin</a></li>
+        <li><a href="{{url_for('admin')}}"><span class="fa fa-fw fa-cog"></span> إدارة الموقع</a></li>
         <li class="divider"></li>
       # endif
-      <li><a href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> Sign out</a></li>
+      <li><a href="{{url_for('signout')}}"><span class="fa fa-fw fa-sign-out"></span> تسجيل الخروج</a></li>
     </ul>
   </li>
 # else
   <li class="{{'active' if html_class.find('auth') != -1}}">
-    <a href="{{url_for('signin')}}"><span class="fa fa-fw fa-sign-in"></span> Sign in</a>
+    <a href="{{url_for('signin')}}"><span class="fa fa-fw fa-sign-in"></span> تسجيل الدخول</a>
   </li>
 # endif

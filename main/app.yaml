@@ -17,6 +17,8 @@ libraries:
   version: latest
 - name: PIL
   version: latest
+- name: pycrypto
+  version: latest
 
 error_handlers:
 - file: templates/error_static.html

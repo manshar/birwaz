@@ -68,6 +68,33 @@ class ResourceAPI(flask_restful.Resource):
     delete_resource_key(resource_db.key)
     return helpers.make_response(resource_db, model.Resource.FIELDS)
 
+@api_v1.resource('/resource/<string:key>/approve', endpoint='api.resource.approve')
+class ResourceApproveAPI(flask_restful.Resource):
+  @auth.admin_required
+  def put(self, key):
+    resource_db = ndb.Key(urlsafe=key).get()
+    if not resource_db:
+      helpers.make_not_found_exception('Resource %s not found' % key)
+    review = model.ResourceReview(parent=resource_db.key,
+        reviewer_user_key=auth.current_user_key(), value=10)
+    review.put()
+    resource_db.reset_hotness()
+    resource_db.put()
+    return helpers.make_response(resource_db, model.Resource.FIELDS)
+
+@api_v1.resource('/resource/<string:key>/reject', endpoint='api.resource.reject')
+class ResourceRejectAPI(flask_restful.Resource):
+  @auth.admin_required
+  def put(self, key):
+    resource_db = ndb.Key(urlsafe=key).get()
+    if not resource_db:
+      helpers.make_not_found_exception('Resource %s not found' % key)
+    review = model.ResourceReview(parent=resource_db.key,
+        reviewer_user_key=auth.current_user_key(), value=-10)
+    review.put()
+    resource_db.reset_hotness()
+    resource_db.put()
+    return helpers.make_response(resource_db, model.Resource.FIELDS)
 
 @api_v1.resource('/resource/upload/', endpoint='api.resource.upload')
 class ResourceUploadAPI(flask_restful.Resource):
