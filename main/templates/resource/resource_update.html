@@ -16,6 +16,18 @@
         <fieldset>
           {{form.csrf_token}}
           {{forms.text_field(form.name)}}
+          {{forms.textarea_field(form.description)}}
+          {{forms.text_field(form.address_first_line)}}
+          {{forms.text_field(form.address_second_line)}}
+          {{forms.text_field(form.city)}}
+          {{forms.text_field(form.country)}}
+          <div class="form-group">
+          {{forms.list_input_field(form.tags, 'text')}}
+          {% for entry in form.tags %}
+              {{ entry(class='form-control') }}
+          {% endfor %}
+          </div>
+          {{forms.text_field(form.new_tags)}}
 
           <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
             Update

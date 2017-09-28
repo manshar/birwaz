@@ -41,6 +41,68 @@ def sitemap():
   return response
 
 
+
+
+###############################################################################
+# About page
+###############################################################################
+@app.route('/about')
+def about():
+  return flask.render_template('about.html',
+    html_class='about',
+)
+
+
+###############################################################################
+# TOS page
+###############################################################################
+@app.route('/tos')
+def tos():
+  return flask.render_template('tos.html',
+    html_class='tos',
+)
+
+
+###############################################################################
+# Privacy page
+###############################################################################
+@app.route('/privacy')
+def privacy():
+  return flask.render_template('privacy.html',
+    html_class='privacy',
+)
+
+
+###############################################################################
+# License page
+###############################################################################
+@app.route('/license')
+def license():
+  return flask.render_template('license.html',
+    html_class='license',
+)
+
+
+###############################################################################
+# FAQ page
+###############################################################################
+@app.route('/faq')
+def faq():
+  return flask.render_template('faq.html',
+    html_class='faq',
+)
+
+
+
+###############################################################################
+# Submissions Guidelines page
+###############################################################################
+@app.route('/submission-guidelines')
+def submissionGuidelines():
+  return flask.render_template('submission-guidelines.html',
+    html_class='submission-guidelines',
+)
+
 ###############################################################################
 # Warmup request
 ###############################################################################

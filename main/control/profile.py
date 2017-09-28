@@ -21,6 +21,9 @@ from main import app
 def profile():
   user_db = auth.current_user_db()
 
+  if not user_db:
+    flask.abort(404)
+
   resource_dbs, resource_cursor = user_db.get_resource_dbs(
       model.Resource.query(model.Resource.hotness > 0),
       order='-hotness', limit=10, prev_cursor=True)
@@ -38,7 +41,7 @@ def profile():
 
 
 @app.route('/profile/<int:user_id>/', methods=['GET'])
-def view_profile(user_id=0):
+def profile_view(user_id=0):
   print user_id
   if user_id:
     user_db = model.User.get_by_id(user_id)
@@ -75,6 +78,31 @@ class ProfileUpdateForm(flask_wtf.FlaskForm):
     [wtforms.validators.optional(), wtforms.validators.email()],
     filters=[util.email_filter],
   )
+  about = wtforms.TextField(
+    model.User.about._verbose_name,
+    [wtforms.validators.optional()],
+  )
+  facebook_url = wtforms.StringField(
+    model.User.facebook_url._verbose_name,
+    [wtforms.validators.optional(), wtforms.validators.url()],
+  )
+  twitter_url = wtforms.StringField(
+    model.User.twitter_url._verbose_name,
+    [wtforms.validators.optional(), wtforms.validators.url()],
+  )
+  instagram_url = wtforms.StringField(
+    model.User.instagram_url._verbose_name,
+    [wtforms.validators.optional(), wtforms.validators.url()],
+  )
+  fivehundredpx_url = wtforms.StringField(
+    model.User.fivehundredpx_url._verbose_name,
+    [wtforms.validators.optional(), wtforms.validators.url()],
+  )
+  flickr_url = wtforms.StringField(
+    model.User.flickr_url._verbose_name,
+    [wtforms.validators.optional(), wtforms.validators.url()],
+  )
+
 
 
 @app.route('/profile/update/', methods=['GET', 'POST'])

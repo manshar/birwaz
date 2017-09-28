@@ -26,6 +26,13 @@ class User(model.Base):
   token = ndb.StringProperty(default='')
   password_hash = ndb.StringProperty(default='')
 
+  about = ndb.TextProperty(default='')
+  facebook_url = ndb.StringProperty(default='')
+  twitter_url = ndb.StringProperty(default='')
+  instagram_url = ndb.StringProperty(default='')
+  fivehundredpx_url = ndb.StringProperty(default='', verbose_name='500px Url')
+  flickr_url = ndb.StringProperty(default='')
+
   def has_permission(self, perm):
     return self.admin or perm in self.permissions
 
@@ -98,6 +105,11 @@ class User(model.Base):
     'permissions': fields.List(fields.String),
     'username': fields.String,
     'verified': fields.Boolean,
+    'facebook_url': fields.String,
+    'twitter_url': fields.String,
+    'instagram_url': fields.String,
+    'fivehundredpx_url': fields.String,
+    'flickr_url': fields.String,
   }
 
   FIELDS.update(model.Base.FIELDS)

@@ -44,9 +44,11 @@
     </div>
   # else
     <div class="alert alert-warning text-center">
-      <h3>You are already signed in as {{current_user.user_db.name}}!</h3>
-      Please <a class="alert-link" href="{{url_for('signout')}}">sign out</a>
-      first if you want to sign in with a different account.
+      <h3>
+        أنت مسجل الدخول بحساب
+        {{current_user.user_db.name}}!</h3>
+      الرجاء <a class="alert-link" href="{{url_for('signout')}}">تسجيل الخروج</a>
+      أولاً إذا أردت تسجيل الدخول بحساب آخر
     </div>
   # endif
 # endblock

@@ -6,8 +6,11 @@
     <div class="container">
       <h1 class="header-brand">{{config.CONFIG_DB.brand_name}}</h1>
       <h3 class="lead">
-        صور احترافية وجميلة بطابع عربي مجانية الاستخدام بأي شكل تريد!
+        صور احترافية وجميلة بطابع عربي
 
+        <a href="{{url_for('license')}}">
+          مجانية الاستخدام بأي شكل تريد
+        </a>
       </h3>
       <p class="lead">
         <a class="btn btn-primary btn-lg" href="{{url_for('resource_upload')}}" title="رفع صور" role="button">
@@ -24,19 +27,19 @@
 
 # block content
   <div class="row flip features">
-    <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="col-sm-6 col-md-4 col-lg-3 pull-right">
       <h3>صور رائعة عربية عالية الجودة</h3>
       <p>صور عالية الجودة (٣ ميجابيكسيل وأكثر) ومصورة باحترافية ومنتقاة من مجتمع من المصورين والمدراء</p>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="col-sm-6 col-md-4 col-lg-3 pull-right">
       <h3>مجانية الاستخدام في مشاريعكم</h3>
       <p>جميع الصور في إدّيني صور مقدمة برخصة الاستخدام العام CC0 حيث يتيح لكم استخدام الصور بأي مشروع تريدون سواء ربحي أو غيره.</p>
     </div>
-    <div class="col-sm-6 col-md-4 col-lg-3">
+    <div class="col-sm-6 col-md-4 col-lg-3 pull-right">
       <h3>ابني صيت لك كمصور محترف</h3>
       <p>لكل مصور صفحته الخاصة لبناء ملفكم الشخصي وبناء شبكة من معجبينكم ومتابعينكم وتحميل الجديد من صوركم</p>
     </div>
-    <div class="col-sm-6 col-md-12 col-lg-3">
+    <div class="col-sm-6 col-md-12 col-lg-3 pull-right">
       <h3>ابحث بكلمات مفتاحية ووصفية</h3>
       <p>ابحث عن الصورة المناسبة لمشروعك باستخدام محرك البحث بوصف ما بالصورة من كلمات. مثل: جبال رملية</p>
     </div>

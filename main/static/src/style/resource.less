@@ -48,6 +48,11 @@ td {
       background-size: cover;
       background-color: @well-bg;
     }
+
+    .actions {
+      margin: 10px 0;
+    }
+
     h5 {
       font-size: @font-size-small;
       .ellipsis;
@@ -81,4 +86,24 @@ td {
 
 .resource-upload .jumbotron {
   margin-bottom: 0;
+}
+
+.resource-view .img-responsive {
+  margin: 0 auto 1em auto;
+}
+
+.resource-view .jumbotron {
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+.resource-tags {
+  padding-bottom: 10px;
+}
+
+.resource-tags a:hover .label {
+  background: @btn-primary-border;
+}
+.resource-tags a {
+  text-decoration: none;
 }

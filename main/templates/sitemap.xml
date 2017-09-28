@@ -8,6 +8,12 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>{{url_for('about', _external=True)}}</loc>
+    <lastmod>{{lastmod}}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>{{url_for('feedback', _external=True)}}</loc>
     <lastmod>{{lastmod}}</lastmod>
     <changefreq>weekly</changefreq>

@@ -4,10 +4,35 @@
 }
 
 .card {
-  background-color: #eee;
+  background-color: #fff;
   display: inline-block;
   margin: 0 0 1em;
   width: 100%;
+  position: relative;
+}
+
+.card .card-block {
+  position: absolute;
+  bottom: 0;
+  right: 10px;
+  color: #fff;
+  display: none;
+}
+
+.card:hover .card-block:not(.hide) {
+  display: block;
+}
+
+.card .card-block a {
+  color: #fff;
+  font-size: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.card .card-block a img {
+  margin-left: 12px;
 }
 
 @media only screen and (min-width: 400px) {

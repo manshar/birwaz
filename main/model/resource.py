@@ -19,6 +19,19 @@ class Resource(model.Base):
   content_type = ndb.StringProperty(default='')
   size = ndb.IntegerProperty(default=0)
 
+  description = ndb.TextProperty()
+
+  geo_location = ndb.GeoPtProperty()
+
+  address_first_line = ndb.StringProperty()
+  address_second_line = ndb.StringProperty()
+  city = ndb.StringProperty()
+  country = ndb.StringProperty()
+
+  tags = ndb.StringProperty(repeated=True)
+  # auto_tags = ndb.StringProperty(repeated=True)
+
+  # Get these from src src.
   width = ndb.IntegerProperty(default=0)
   height = ndb.IntegerProperty(default=0)
   hotness = ndb.IntegerProperty(default=-1)
@@ -26,6 +39,19 @@ class Resource(model.Base):
   @ndb.ComputedProperty
   def size_human(self):
     return util.size_human(self.size or 0)
+
+  @property
+  def full_address(self):
+    all_parts = []
+    if self.address_first_line:
+      all_parts.append(self.address_first_line)
+    if self.address_second_line:
+      all_parts.append(self.address_second_line)
+    if self.city:
+      all_parts.append(self.city)
+    if self.country:
+      all_parts.append(self.country)
+    return ' - '.join(all_parts)
 
   @property
   def download_url(self):

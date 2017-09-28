@@ -2,72 +2,136 @@
 # import 'macro/utils.html' as utils
 
 # block content
-  <div class="page-header">
-    <div class="pull-right">
-      <a class="btn btn-default" href="{{url_for('resource_upload')}}" title="Upload">
-        <span class="fa fa-plus fa-fw"></span>
-      </a>
-      <a class="btn btn-primary" href="{{url_for('resource_update', resource_id=resource_db.key.id())}}">
-        <span class="fa fa-fw fa-pencil"></span> Edit
-      </a>
-      <a class="btn btn-success" href="{{url_for('resource_download', resource_id=resource_db.key.id())}}" title="Download">
-        <span class="fa fa-cloud-download"></span>
-      </a>
-      <button class="btn btn-danger btn-delete"
-          data-api-url="{{url_for('api.resource', key=resource_db.key.urlsafe())}}"
-          data-redirect-url="{{url_for('admin_resource_list')}}"
-          title="Delete"
-        >
-        <span class="fa fa-trash-o"></span>
-      </button>
-    </div>
+  <div class="jumbotron">
+    <h5 class="resource-tags">
+      # for tag in resource_db.tags
+        <a href="{{url_for('resource_search', tags=tag)}}">
+          <span class="label label-primary">{{tag}}</span>
+        </a>
+      # endfor
+    </h5>
+
+    <h2>
+      <small>
+        <a href="{{url_for('profile_view', user_id=user_db.key.id())}}">
+          <img class="img-circle" src="{{resource_db.user_key.get().avatar_url_size(64)}}" alt="Avatar of {{resource_db.user_key.get().name}}" width="32">
+          {{user_db.name}}
+        </a>
+    </small></h2>
     <h1>
-      {{utils.back_link('Back to resource list', 'admin_resource_list')}}
-      {{title}}
+      {{resource_db.name}}
     </h1>
+    # if resource_db.description
+    <p>
+      {{resource_db.description}}
+    </p>
+    # endif
+
+    <h5 class="resource-tags">
+      # if resource_db.address_first_line
+        <a href="{{url_for('resource_search', address_first_line=resource_db.address_first_line)}}">
+          <span class="label label-default">{{resource_db.address_first_line}}</span>
+        </a>
+      # endif
+      # if resource_db.address_second_line
+        <a href="{{url_for('resource_search', address_second_line=resource_db.address_second_line)}}">
+          <span class="label label-default">{{resource_db.address_second_line}}</span>
+        </a>
+      # endif
+      # if resource_db.city
+        <a href="{{url_for('resource_search', city=resource_db.city)}}">
+          <span class="label label-default">{{resource_db.city}}</span>
+        </a>
+      # endif
+      # if resource_db.country
+        <a href="{{url_for('resource_search', country=resource_db.country)}}">
+          <span class="label label-default">{{resource_db.country}}</span>
+        </a>
+      # endif
+    </h5>
+
+
   </div>
 
+# endblock
+
+# block contentmiddle
   <div class="row">
-    <div class="col-md-6">
-      <table class="table table-bordered table-striped">
-        <tbody>
-          <tr>
-            <th class="text-nowrap col-xs-1">Name</th>
-            <td class="col-xs-11">{{resource_db.name}}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap col-xs-1">Content Type</th>
-            <td class="col-xs-11">{{resource_db.content_type}}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap col-xs-1">Size</th>
-            <td class="col-xs-11">{{resource_db.size_human}}</td>
-          </tr>
-          <tr>
-            <th class="text-nowrap col-xs-1">Created</th>
-            <td class="col-xs-11">
-              <time datetime="{{resource_db.created}}">
-                {{resource_db.created.strftime('%Y-%m-%d')}}
-              </time>
-            </td>
-          </tr>
-          <tr>
-            <th class="text-nowrap col-xs-1">Modifed</th>
-            <td class="col-xs-11">
-              <time datetime="{{resource_db.modified}}">
-                {{resource_db.modified.strftime('%Y-%m-%d')}}
-              </time>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
     # if resource_db.image_url
-      <div class="col-md-6">
-        <div class="image-preview">
-          <img class="img-responsive img-thumbnail" src="{{resource_db.image_url}}=s1024">
+      <div class="image-preview text-center">
+        <img class="img-responsive" src="{{resource_db.image_url}}=w2048">
+
+        <div>
+
+          <!-- Upload  -->
+          <a class="hide btn btn-default" href="{{url_for('resource_upload')}}" title="Upload">
+            <span class="fa fa-plus fa-fw"></span>
+          </a>
+
+          <!-- Download -->
+          <a class="btn btn-success" href="{{url_for('resource_download', resource_id=resource_db.key.id())}}" title="Download">
+            <span class="fa fa-cloud-download"></span> تنزيل الصورة بالحجم الأصلي
+          </a>
+
+          # if current_user.admin or current_user.id == resource_db.user_key.id()
+          <a class="btn btn-primary" href="{{url_for('resource_update', resource_id=resource_db.key.id())}}">
+            <span class="fa fa-fw fa-pencil"></span> تعديل
+          </a>
+          <button class="btn btn-danger btn-delete"
+              data-api-url="{{url_for('api.resource', key=resource_db.key.urlsafe())}}"
+              data-redirect-url="{{url_for('resource_grid')}}"
+              title="Delete"
+            >
+            <span class="fa fa-trash-o"></span> حذف
+          </button>
+          # endif
         </div>
+
       </div>
     # endif
   </div>
+# endblock
+
+# block contentnext
+
+  <div class="jumbotron">
+
+  </div>
+
+
+  <div class="row">
+    <table class="table table-bordered table-striped">
+      <tbody>
+        <tr>
+          <th class="text-nowrap col-xs-1">اسم الملف</th>
+          <td class="col-xs-11">{{resource_db.name}}</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap col-xs-1">نوع الصورة</th>
+          <td class="col-xs-11">{{resource_db.content_type}}</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap col-xs-1">حجم الملف</th>
+          <td class="col-xs-11">{{resource_db.size_human}}</td>
+        </tr>
+        <tr>
+          <th class="text-nowrap col-xs-1">تاريخ صنع الملف</th>
+          <td class="col-xs-11">
+            <time datetime="{{resource_db.created}}">
+              {{resource_db.created.strftime('%Y-%m-%d')}}
+            </time>
+          </td>
+        </tr>
+        <tr>
+          <th class="text-nowrap col-xs-1">تاريخ تعديل الملف</th>
+          <td class="col-xs-11">
+            <time datetime="{{resource_db.modified}}">
+              {{resource_db.modified.strftime('%Y-%m-%d')}}
+            </time>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
 # endblock

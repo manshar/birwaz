@@ -146,10 +146,21 @@ def resource_db_from_upload():
   blob_info_key = werkzeug.parse_options_header(headers)[1]['blob-key']
   blob_info = blobstore.BlobInfo.get(blob_info_key)
 
+  # print 'info'
+  # print blob_info.size
+  # print blob_info.md5_hash
+  # print blob_info.creation
+  # image_obj = images.Image(blob_key=blob_info.key())
+  # image_obj.im_feeling_lucky()
+  # output = image_obj.execute_transforms(parse_source_metadata=True)
+  # print image_obj.width
+  # print image_obj.height
+  # print image_obj.get_original_metadata()
+
   image_url = None
   if blob_info.content_type.startswith('image'):
     try:
-      image_url = images.get_serving_url(blob_info.key())
+      image_url = images.get_serving_url(blob_info.key(), secure_url=True)
     except:
       pass
 

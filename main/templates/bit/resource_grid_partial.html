@@ -5,11 +5,15 @@
 <div class="card-columns">
   # for resource_db in resource_dbs
   <div class="card">
-    <img class="card-img-top img-fluid" src="{{resource_db.image_url}}=w300" width="100%" alt="Card image cap">
-    <div class="card-block">
-      <h4 class="card-title hide">
-      <img class="img-circle" src="{{resource_db.user_key.get().avatar_url_size(64)}}" alt="Avatar of {{resource_db.user_key.get().name}}" width="32">
-        {{resource_db.user_key.get().name}}
+    <a href="{{url_for('resource_view', resource_id=resource_db.key.id())}}">
+      <img class="card-img-top img-fluid" src="{{resource_db.image_url}}=w300" width="100%" alt="صورة">
+    </a>
+    <div class="card-block {{'hide' if html_class == 'profile-view'}}">
+      <h4 class="card-title text-right">
+        <a href="{{url_for('profile_view', user_id=resource_db.user_key.id())}}">
+          <img class="img-circle" src="{{resource_db.user_key.get().avatar_url_size(64)}}" alt="Avatar of {{resource_db.user_key.get().name}}" width="32">
+            {{resource_db.user_key.get().name}}
+        </a>
       </h4>
     </div>
   </div>

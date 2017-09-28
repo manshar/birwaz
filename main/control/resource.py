@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import urllib
+import re
 
 from google.appengine.ext import blobstore
 import flask
@@ -55,20 +56,58 @@ def resource_grid():
 
 
 ###############################################################################
+# Public Search
+###############################################################################
+@app.route('/resource/search/', endpoint='resource_search')
+def resource_search():
+  query = model.Resource.query(model.Resource.hotness > 0)
+  tags = util.param('tags', list)
+  if tags:
+    query = query.filter(model.Resource.tags.IN(tags))
+  address_first_line = util.param('address_first_line')
+  if address_first_line:
+    query = query.filter(
+      model.Resource.address_first_line == address_first_line)
+  address_second_line = util.param('address_second_line')
+  if address_second_line:
+    query = query.filter(
+      model.Resource.address_second_line == address_second_line)
+  city = util.param('city')
+  if city:
+    query = query.filter(model.Resource.city == city)
+  country = util.param('country')
+  if country:
+    query = query.filter(model.Resource.country == country)
+
+  resource_dbs, cursors = model.Resource.get_dbs(
+    query,
+    limit=20, prev_cursor=True, order='-hotness')
+
+  return flask.render_template(
+    'resource/resource_grid.html',
+    html_class='resource-grid',
+    title='Resource Grid',
+    resource_dbs=resource_dbs,
+    next_url=util.generate_next_url(cursors.get('next')),
+    prev_url=util.generate_next_url(cursors.get('prev')),
+    api_url=flask.url_for('api.resource.list'),
+  )
+
+###############################################################################
 # View
 ###############################################################################
 @app.route('/resource/<int:resource_id>/', endpoint='resource_view')
-@auth.login_required
 def resource_view(resource_id):
   resource_db = model.Resource.get_by_id(resource_id)
   if not resource_db:
     return flask.abort(404)
-
+  user_db = resource_db.user_key.get()
   return flask.render_template(
     'resource/resource_view.html',
     html_class='resource-view',
     title='%s' % (resource_db.name),
     resource_db=resource_db,
+    user_db=user_db,
     api_url=flask.url_for('api.resource', key=resource_db.key.urlsafe()),
   )
 
@@ -77,7 +116,14 @@ def resource_view(resource_id):
 # Update
 ###############################################################################
 class ResourceUpdateForm(flask_wtf.FlaskForm):
-  name = wtforms.TextField('Name', [wtforms.validators.required()])
+  name = wtforms.TextField(u'عنوان الصورة', [wtforms.validators.required()])
+  description = wtforms.TextAreaField(u'وصف الصورة', [wtforms.validators.optional()])
+  address_first_line = wtforms.TextField(u'عنوان الشارع', [wtforms.validators.optional()])
+  address_second_line = wtforms.TextField(u'القرية/الحارة/المنطقة', [wtforms.validators.optional()])
+  city = wtforms.TextField(u'المدينة', [wtforms.validators.optional()])
+  country = wtforms.TextField(u'البلد', [wtforms.validators.optional()])
+  tags = wtforms.FieldList(wtforms.TextField(u'كلمة وصفية'), min_entries=2, label=u'الكلمات الوصفية الحالية')
+  new_tags = wtforms.TextField(u'كلمات وصفية جديدة (افصل بينهم بفاصلة)')
 
 
 @app.route('/resource/<int:resource_id>/update/', methods=['GET', 'POST'], endpoint='resource_update')
@@ -92,6 +138,16 @@ def resource_update(resource_id):
 
   if form.validate_on_submit():
     form.populate_obj(resource_db)
+    print 'form.new_tags.data'
+    print form.new_tags.data.encode('utf8')
+    if form.new_tags.data:
+      new_tags = re.split(ur'[,\u060c]', form.new_tags.data)
+      resource_db.tags = set(
+        resource_db.tags +
+        list(set([tag.strip() for tag in new_tags if tag])))
+    resource_db.tags = [tag for tag in resource_db.tags if len(tag) > 0]
+
+    print resource_db.tags
     resource_db.put()
     return flask.redirect(flask.url_for(
       'resource_view', resource_id=resource_db.key.id(),

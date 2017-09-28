@@ -28,6 +28,11 @@ upload_handler =
               <div class="progress-bar" style="width: 0%;"></div>
               <div class="progress-text"></div>
             </div>
+            <div class="actions hide">
+              <a class="action-update btn btn-block btn-xs btn-primary" target="_blank" href="/resource/RESOURCE_ID/update/">
+                أكمل معلومات الصورة
+              </a>
+            </div>
           </div>
         </div>
       """
@@ -58,6 +63,8 @@ upload_handler =
       if progress == 100.0 and resource
         $('.progress-bar', $resource).addClass('progress-bar-success')
         $('.progress-text', $resource).text("Success #{size_human(file.size)}")
+        $('.actions', $resource).removeClass('hide');
+        $('.action-update', $resource).attr('href', '/resource/' + resource.id + '/update/');
         if resource.image_url and $preview.text().length > 0
           $preview.css('background-image', "url(#{resource.image_url})")
           $preview.text('')

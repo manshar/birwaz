@@ -9,6 +9,33 @@
         # endif
       </p>
     # endif
-    <p>{{config.CONFIG_DB.brand_name}} - 2017 &copy; </p>
+
+    <p>
+      <a href="{{url_for('about')}}">
+        عن برواز
+      </a> -
+
+      <a href="{{url_for('license')}}">
+        رخصة برواز
+      </a> -
+
+      <a href="{{url_for('privacy')}}">
+        الخصوصية
+      </a>  -
+
+      <a target="_blank" href="https://www.manshar.com/articles/%D8%B4%D8%B1%D9%88%D8%B7-%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%85%D9%86%D8%B4%D8%B1=AXolMK1x-27EkpQHt3gD4w/read/">
+        شروط الاستخدام
+      </a> -
+
+      <a href="{{url_for('faq')}}">
+        أسئلة شائعة
+      </a> -
+
+      <a href="{{url_for('submissionGuidelines')}}">
+        متطلبات الصور المرسلة
+      </a>
+
+    </p>
+    <p>{{config.CONFIG_DB.brand_name}} - 2017 </p>
   </div>
 </footer>

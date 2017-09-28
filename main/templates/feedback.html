@@ -3,11 +3,11 @@
 
 # block content
   <div class="page-header">
-    <h1>{{title}} <small>Any questions or suggestions are welcome</small></h1>
+    <h1>{{title}} <small>أي سؤال واستفسار مرحب بهم</small></h1>
   </div>
 
   <div class="row">
-    <div class="col-md-4 col-sm-6">
+    <div class="">
       <form method="POST" action="." novalidate>
         {{form.csrf_token}}
 
@@ -16,7 +16,7 @@
         {{forms.recaptcha_field(form.recaptcha)}}
 
         <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
-          Send Feedback
+          أرسل الرسالة
         </button>
       </form>
     </div>

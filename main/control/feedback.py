@@ -14,11 +14,11 @@ from main import app
 
 class FeedbackForm(flask_wtf.FlaskForm):
   message = wtforms.TextAreaField(
-    'Message',
+    u'الرسالة',
     [wtforms.validators.required()], filters=[util.strip_filter],
   )
   email = wtforms.StringField(
-    'Your email',
+    u'بريدك الإلكتروني',
     [wtforms.validators.optional(), wtforms.validators.email()],
     filters=[util.email_filter],
   )
@@ -37,12 +37,12 @@ def feedback():
     body = '%s\n\n%s' % (form.message.data, form.email.data)
     kwargs = {'reply_to': form.email.data} if form.email.data else {}
     task.send_mail_notification('%s...' % body[:48].strip(), body, **kwargs)
-    flask.flash('Thank you for your feedback!', category='success')
+    flask.flash(u'شكراً لإرسالك الرسالة!', category='success')
     return flask.redirect(flask.url_for('welcome'))
 
   return flask.render_template(
     'feedback.html',
-    title='Feedback',
+    title=u'تواصل معنا',
     html_class='feedback',
     form=form,
   )

@@ -3,12 +3,22 @@
 # import 'macro/utils.html' as utils
 
 # block content
-  <div class="page-header">
+  <div class="jumbotron text-center">
+    <img class="img-circle" src="{{user_db.avatar_url_size(328)}}" alt="Avatar of {{user_db.name}}" width="164">
+    # if html_class == 'profile-update'
+      <p class="help-block">
+        # if user_db.has_facebook()
+          Change on <a href="https://facebook.com" target="_blank">Facebook</a>
+        # else
+          Change on <a href="https://gravatar.com" target="_blank">Gravatar</a>
+        # endif
+      </p>
+    # endif
     <h1>
       # if html_class == 'profile-view'
-        <div class="pull-right">
+        <div class="pull-left">
           <div class="btn-group">
-            # if current_user.id == user_db.key.id() or current_user.admin
+            # if current_user and (current_user.id == user_db.key.id() or current_user.admin)
             <a class="btn btn-default btn-xs" href="{{url_for('profile_update')}}">
               <span class="fa fa-edit"></span>
               Edit
@@ -32,25 +42,37 @@
 
       {{title}}
     </h1>
+    <h3 class="profile-links">
+      # if user_db.facebook_url
+        <a target="_blank" href="{{user_db.facebook_url}}">
+          <span class="fa fa-fw fa-facebook" title="رابط الفيسبوك ل{{user_db.name}}"></span>
+        </a>
+      # endif
+      # if user_db.twitter_url
+        <a target="_blank" href="{{user_db.twitter_url}}">
+          <span class="fa fa-fw fa-twitter" title="رابط التويتر ل{{user_db.name}}"></span>
+        </a>
+      # endif
+      # if user_db.instagram_url
+        <a target="_blank" href="{{user_db.instagram_url}}">
+          <span class="fa fa-fw fa-instagram" title="رابط انستجرام ل{{user_db.name}}"></span>
+        </a>
+      # endif
+      # if user_db.fivehundredpx_url
+        <a target="_blank" href="{{user_db.fivehundredpx_url}}">
+          <span class="fa fa-fw fa-500px" title="رابط 500px ل{{user_db.name}}"></span>
+        </a>
+      # endif
+      # if user_db.flickr_url
+        <a target="_blank" href="{{user_db.flickr_url}}">
+          <span class="fa fa-fw fa-flickr" title="رابط فليكر ل{{user_db.name}}"></span>
+        </a>
+      # endif
+    </h3>
   </div>
 
   <div class="row">
-    <div class="col-xs-5 col-sm-4 col-md-3">
-      <img class="img-thumbnail" src="{{user_db.avatar_url_size(512)}}" alt="Avatar of {{user_db.name}}">
-      # if html_class == 'profile-update'
-        <p class="help-block">
-          # if user_db.has_facebook()
-            Change on <a href="https://facebook.com" target="_blank">Facebook</a>
-          # else
-            Change on <a href="https://gravatar.com" target="_blank">Gravatar</a>
-          # endif
-        </p>
-      # endif
-    </div>
-
-    <div class="col-xs-12 col-sm-8 {% if html_class == 'profile-view' %} col-md-9 {% else %} col-md-6 {% endif %}">
-      # block profile_content
-      # endblock
-    </div>
+    # block profile_content
+    # endblock
   </div>
 # endblock

@@ -167,7 +167,7 @@
 # endmacro
 
 
-# macro panel_fields(name, fields, help)
+# macro panel_fields(name, fields, help=None, is_collapsed=True)
   <div class="panel panel-default">
     <div class="panel-heading">
       <h4 class="panel-title">
@@ -175,7 +175,7 @@
         <span class="fa fa-check pull-right {{'hide' if not check_form_fields(fields)}}"></span>
       </h4>
     </div>
-    <div id="{{slugify(name)}}" class="panel-collapse collapse">
+    <div id="{{slugify(name)}}" class="{{'panel-collapse collapse' if is_collapsed else ''}}">
       <div class="panel-body">
         # for field in (fields if is_iterable(fields) else [fields]):
           {{text_field(field)}}

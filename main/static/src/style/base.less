@@ -86,3 +86,39 @@ h3, h4 {
 p {
   font-size: 1.2em;
 }
+
+.navbar-brand {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar-brand img {
+  height: 42px;
+  margin-left: 10px;
+}
+
+.license .jumbotron .lead,
+.privacy .jumbotron .lead,
+.about .jumbotron .lead {
+  font-family: @font-family-extra-light;
+  font-size: 2.5em;
+  line-height: 2;
+}
+
+.license blockquote {
+  border-right: 5px solid #ccc;
+  border-left: none;
+  padding-right: 20px;
+  margin-bottom: 12px;
+}
+
+
+@media (max-width: 600px) {
+  .license .jumbotron .lead,
+  .privacy .jumbotron .lead,
+  .about .jumbotron .lead {
+    font-size: 1.5em;
+    line-height: 2;
+  }
+}
