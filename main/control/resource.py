@@ -131,7 +131,9 @@ class ResourceUpdateForm(flask_wtf.FlaskForm):
 def resource_update(resource_id):
   resource_db = model.Resource.get_by_id(resource_id)
 
-  if not resource_db or resource_db.user_key != auth.current_user_key():
+  if not resource_db or (
+    resource_db.user_key != auth.current_user_key() and
+    not auth.current_user_db().admin):
     return flask.abort(404)
 
   form = ResourceUpdateForm(obj=resource_db)
