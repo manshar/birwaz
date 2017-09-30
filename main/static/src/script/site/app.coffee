@@ -13,6 +13,9 @@ $ -> $('html.user-merge').each ->
 $ -> $('html.resource-list').each ->
   init_resource_list()
 
+$ -> $('html.filter-list').each ->
+  init_resource_list()
+
 $ -> $('html.resource-view').each ->
   init_resource_view()
 

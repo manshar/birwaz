@@ -39,7 +39,7 @@ def user_list():
   return flask.render_template(
     'user/user_list.html',
     html_class='user-list',
-    title='User List',
+    title=u'قائمة المستخدمين',
     user_dbs=user_dbs,
     next_url=util.generate_next_url(cursors['next']),
     prev_url=util.generate_next_url(cursors['prev']),
@@ -187,7 +187,7 @@ def user_forgot(token=None):
 
   return flask.render_template(
     'user/user_forgot.html',
-    title='Forgot Password?',
+    title=u'استعادة كلمة المرور',
     html_class='user-forgot',
     form=form,
   )
@@ -226,7 +226,7 @@ def user_reset(token=None):
 
   return flask.render_template(
     'user/user_reset.html',
-    title='Reset Password',
+    title=u'تغيير كلمة المرور',
     html_class='user-reset',
     form=form,
     user_db=user_db,
@@ -269,7 +269,7 @@ def user_activate(token):
 
   return flask.render_template(
     'user/user_activate.html',
-    title='Activate Account',
+    title=u'تفعيل الحساب',
     html_class='user-activate',
     user_db=user_db,
     form=form,
@@ -346,7 +346,7 @@ def user_merge():
 
   return flask.render_template(
     'user/user_merge.html',
-    title='Merge Users',
+    title=u'دمج المستخدمين',
     html_class='user-merge',
     user_dbs=user_dbs,
     merged_user_db=merged_user_db,

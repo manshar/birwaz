@@ -20,8 +20,10 @@
     {{utils.auth_icons(user_db)}}
   </h3>
   # endif
+# endblock
 
-  <div>
+# block contentmiddle
+  <div class="stage-resource-grid">
   # include 'bit/resource_grid_partial.html'
   {{utils.next_link(next_url, prev_url=prev_url, next_caption='الصفحة التالية')}}
   </div>

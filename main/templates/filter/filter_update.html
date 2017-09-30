@@ -1,0 +1,30 @@
+# extends 'base.html'
+# import 'macro/forms.html' as forms
+# import 'macro/utils.html' as utils
+
+# block content
+  <div class="page-header">
+    <h1>
+      {{utils.back_link('Back', 'filter_update')}}
+      {{title}}
+    </h1>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 pull-right">
+      <form class="form" method="POST" action=".">
+        <fieldset>
+          {{form.csrf_token}}
+          {{forms.text_field(form.label)}}
+          {{forms.text_field(form.filter_property)}}
+          {{forms.text_field(form.filter_value)}}
+          {{forms.textarea_field(form.description)}}
+
+          <button type="submit" class="btn btn-primary btn-block btn-loading" {{forms.data_loading_text()}}>
+            حفظ
+          </button>
+        </fieldset>
+      </form>
+    </div>
+  </div>
+# endblock

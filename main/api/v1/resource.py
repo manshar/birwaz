@@ -63,7 +63,9 @@ class ResourceAPI(flask_restful.Resource):
   @auth.login_required
   def delete(self, key):
     resource_db = ndb.Key(urlsafe=key).get()
-    if not resource_db or resource_db.user_key != auth.current_user_key():
+    if not resource_db or (
+      resource_db.user_key != auth.current_user_key() and
+      not auth.current_user_db().admin):
       helpers.make_not_found_exception('Resource %s not found' % key)
     delete_resource_key(resource_db.key)
     return helpers.make_response(resource_db, model.Resource.FIELDS)

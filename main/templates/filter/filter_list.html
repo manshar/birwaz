@@ -1,0 +1,57 @@
+# extends 'base.html'
+# import 'macro/utils.html' as utils
+
+# block content
+  <div class="page-header">
+    <div class="pull-right">
+      <a class="btn btn-default" href="{{url_for('filter_update')}}" title="فلتر جديد">
+        <span class="fa fa-plus fa-fw"></span> فلتر جديد
+      </a>
+    </div>
+    <h1>
+      {{title}}
+    </h1>
+  </div>
+
+  <div class="alert alert-warning alert-dismissable {{'hide' if filter_dbs | count > 0}}">
+    لا يوجد أي فلتر
+  </div>
+
+  <table class="table table-bordered table-hover {{'hide' if filter_dbs | count == 0}}">
+    <thead>
+      <tr>
+        <th class="col-xs-5">{{utils.order_by_link('label', 'عنوان الفلتر')}}</th>
+        <th class="col-xs-2 hidden-xs">{{utils.order_by_link('created', 'صنعت بتاريخ')}}</th>
+        <th class="col-xs-3 hidden-xs">{{utils.order_by_link('filter_property', 'اسم الخاصية')}}</th>
+        <th class="col-xs-2 hidden-xs">{{utils.order_by_link('filter_value', 'قيمة الخاصية')}}</th>
+        <th class="col-xs-1 text-right">{{utils.order_by_link('photos_count', 'عدد الصور')}}</th>
+        <th class="col-xs-1">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      # for filter_db in filter_dbs
+        <tr id="{{filter_db.key.urlsafe()}}" class="row-link" data-href="{{url_for('filter_update', filter_id=filter_db.key.id())}}">
+          <td class="ellipsis">{{filter_db.label}}</td>
+          <td class="hidden-xs">
+            <time datetime="{{filter_db.created}}">
+              {{filter_db.created.strftime('%Y-%m-%d')}}
+            </time>
+          </td>
+          <td class="hidden-xs">{{filter_db.filter_property}}</td>
+          <td class="text-right text-nowrap">{{filter_db.filter_value}}</td>
+          <td class="text-right text-nowrap">{{filter_db.photos_count}}</td>
+          <td class="text-nowrap not-link">
+            <button class="btn btn-xs btn-danger btn-delete"
+                data-api-url="{{url_for('api.filter', key=filter_db.key.urlsafe())}}"
+                data-target="#{{filter_db.key.urlsafe()}}"
+              >
+              <span class="fa fa-fw fa-trash-o"></span>
+            </button>
+          </td>
+        </tr>
+      # endfor
+    </tbody>
+  </table>
+
+  {{utils.next_link(next_url, prev_url)}}
+# endblock

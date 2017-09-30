@@ -6,3 +6,4 @@ from .config import Config
 from .user import User
 from .resource import Resource
 from .resource_review import ResourceReview
+from .filter import Filter

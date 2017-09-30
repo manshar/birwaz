@@ -24,7 +24,7 @@ from main import app
 def resource_upload():
   return flask.render_template(
     'resource/resource_upload.html',
-    title='Resource Upload',
+    title=u'ارفع وشارك بالصور',
     html_class='resource-upload',
     get_upload_url=flask.url_for('api.resource.upload'),
     has_json=True,
@@ -44,11 +44,23 @@ def resource_grid():
     model.Resource.query(model.Resource.hotness > 0),
     limit=20, prev_cursor=True, order='-hotness')
 
+  city_filter_dbs, _ = model.Filter.get_dbs(
+    filter_property='city',
+    order='-photos_count',
+  )
+
+  tag_filter_dbs, _ = model.Filter.get_dbs(
+    filter_property='tags',
+    order='-photos_count',
+  )
+
   return flask.render_template(
     'resource/resource_grid.html',
     html_class='resource-grid',
-    title='Resource Grid',
+    title=u'تصفح الصور',
     resource_dbs=resource_dbs,
+    city_filter_dbs=city_filter_dbs,
+    tag_filter_dbs=tag_filter_dbs,
     next_url=util.generate_next_url(cursors.get('next')),
     prev_url=util.generate_next_url(cursors.get('prev')),
     api_url=flask.url_for('api.resource.list'),
@@ -62,22 +74,38 @@ def resource_grid():
 def resource_search():
   query = model.Resource.query(model.Resource.hotness > 0)
   tags = util.param('tags', list)
+  current_filter = None
   if tags:
     query = query.filter(model.Resource.tags.IN(tags))
+    current_filter = 'tags=' + tags[0]
   address_first_line = util.param('address_first_line')
   if address_first_line:
     query = query.filter(
       model.Resource.address_first_line == address_first_line)
+    current_filter = 'address_first_line=' + address_first_line
   address_second_line = util.param('address_second_line')
   if address_second_line:
     query = query.filter(
       model.Resource.address_second_line == address_second_line)
+    current_filter = 'address_second_line=' + address_second_line
   city = util.param('city')
   if city:
     query = query.filter(model.Resource.city == city)
+    current_filter = 'city=' + city
   country = util.param('country')
   if country:
     query = query.filter(model.Resource.country == country)
+    current_filter = 'country=' + country
+
+  city_filter_dbs, _ = model.Filter.get_dbs(
+    filter_property='city',
+    order='-photos_count',
+  )
+
+  tag_filter_dbs, _ = model.Filter.get_dbs(
+    filter_property='tags',
+    order='-photos_count',
+  )
 
   resource_dbs, cursors = model.Resource.get_dbs(
     query,
@@ -86,8 +114,11 @@ def resource_search():
   return flask.render_template(
     'resource/resource_grid.html',
     html_class='resource-grid',
-    title='Resource Grid',
+    title=u'ابحث عن صور',
     resource_dbs=resource_dbs,
+    city_filter_dbs=city_filter_dbs,
+    tag_filter_dbs=tag_filter_dbs,
+    current_filter=current_filter,
     next_url=util.generate_next_url(cursors.get('next')),
     prev_url=util.generate_next_url(cursors.get('prev')),
     api_url=flask.url_for('api.resource.list'),
@@ -108,6 +139,7 @@ def resource_view(resource_id):
     title='%s' % (resource_db.name),
     resource_db=resource_db,
     user_db=user_db,
+    create_api_url=flask.url_for('api.filter.create'),
     api_url=flask.url_for('api.resource', key=resource_db.key.urlsafe()),
   )
 
@@ -191,7 +223,7 @@ def admin_resource_list():
   return flask.render_template(
     'resource/resource_list.html',
     html_class='resource-list',
-    title='Resource List',
+    title=u'قائمة الصور',
     resource_dbs=resource_dbs,
     next_url=util.generate_next_url(cursors.get('next')),
     prev_url=util.generate_next_url(cursors.get('prev')),

@@ -48,10 +48,13 @@
   <h2 class="hide">
     استعرض الصور
   </h2>
-  # include 'bit/resource_grid_partial.html'
-
-  {{utils.next_link(next_url, next_caption='تصفح المزيد من الصور')}}
-
 # endblock
 
+# block contentmiddle
 
+  <div class="stage-resource-grid">
+    # include 'bit/resource_grid_partial.html'
+
+    {{utils.next_link(next_url, next_caption='تصفح المزيد من الصور')}}
+  </div>
+# endblock

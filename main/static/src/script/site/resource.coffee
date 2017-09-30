@@ -3,6 +3,7 @@ window.init_resource_list = () ->
   init_delete_resource_button()
 
 window.init_resource_view = () ->
+  init_ajax_resource_button()
   init_approve_reject_resource_button()
   init_delete_resource_button()
 
@@ -92,6 +93,21 @@ window.init_delete_resource_button = () ->
           $("#{target}").remove()
         if redirect_url
           window.location.href = redirect_url
+
+window.init_ajax_resource_button = () ->
+  $('body').on 'click', '.btn-ajax', (e) ->
+    e.preventDefault()
+    $(this).attr('disabled', 'disabled')
+    api_call 'POST', $(this).data('api-url'), (err, result) =>
+      if err
+        $(this).removeAttr('disabled')
+        LOG 'Something went terribly wrong during action!', err
+        return
+      target = $(this).data('target')
+      redirect_url = $(this).data('redirect-url')
+      $(this).remove()
+      if redirect_url
+        window.location.href = redirect_url
 
 window.init_approve_reject_resource_button = () ->
   $('body').on 'click', '.btn-approve, .btn-reject', (e) ->

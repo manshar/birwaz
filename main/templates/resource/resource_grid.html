@@ -2,9 +2,37 @@
 # import 'macro/utils.html' as utils
 
 # block content
+  <div class="">
+    <h4>
+      تصفح المدن
+    </h4>
+    <h5 class="resource-tags">
+      # for filter in city_filter_dbs
+        <a href="{{url_for('resource_search', city=filter.filter_value)}}">
+          <span class="label {{'label-primary' if 'city='+filter.filter_value == current_filter else 'label-default'}}">{{filter.label}}</span>
+        </a>
+      # endfor
+    </h5>
+    <h4>
+      تصفح المواضيع
+    </h4>
+    <h5 class="resource-tags">
+      # for filter in tag_filter_dbs
+        <a href="{{url_for('resource_search', tags=filter.filter_value)}}">
+          <span class="label {{'label-primary' if 'city='+filter.filter_value == current_filter else 'label-default'}}">{{filter.label}}</span>
+        </a>
+      # endfor
+    </h5>
+  </div>
+# endblock
 
-# include 'bit/resource_grid_partial.html'
+# block contentmiddle
 
-{{utils.next_link(next_url, prev_url=prev_url, next_caption='الصفحة التالية', prev_caption='الصفحة السابقة')}}
+  <div class="stage-resource-grid">
+
+    # include 'bit/resource_grid_partial.html'
+
+    {{utils.next_link(next_url, prev_url=prev_url, next_caption='الصفحة التالية', prev_caption='الصفحة السابقة')}}
+  </div>
 
 # endblock

@@ -6,7 +6,11 @@
   # for resource_db in resource_dbs
   <div class="card">
     <a href="{{url_for('resource_view', resource_id=resource_db.key.id())}}">
-      <img class="card-img-top img-fluid" src="{{resource_db.image_url}}=w300" width="100%" alt="صورة">
+      <img class="card-img-top img-fluid"
+        src="{{resource_db.image_url}}=w300"
+        srcset="{{resource_db.image_url}}=w600 300w, {{resource_db.image_url}}=w900 450w, {{resource_db.image_url}}=w1400 800w, {{resource_db.image_url}}=w2400 1200w"
+        sizes="(min-width:700px) 33vw, (min-width: 400px) 100vw"
+        width="100%" alt="{{resource_db.name}}">
     </a>
     <div class="card-block {{'hide' if html_class == 'profile-view'}}">
       <h4 class="card-title text-right">

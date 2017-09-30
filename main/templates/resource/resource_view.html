@@ -5,9 +5,19 @@
   <div class="jumbotron">
     <h5 class="resource-tags">
       # for tag in resource_db.tags
-        <a href="{{url_for('resource_search', tags=tag)}}">
-          <span class="label label-primary">{{tag}}</span>
-        </a>
+        <span class="tag-button-filter">
+          <a href="{{url_for('resource_search', tags=tag)}}">
+            <span class="label label-primary">{{tag}}</span>
+          </a>
+          # if current_user and current_user.admin
+          <button class="btn btn-sm btn-success btn-ajax"
+              data-api-url="{{url_for('api.filter.create', label=tag, filter_property='tags', filter_value=tag)}}"
+              title="اصنع فلتر"
+            >
+            <span class="fa fa-filter"></span>
+          </button>
+          # endif
+        </span>
       # endfor
     </h5>
 
@@ -39,9 +49,19 @@
         </a>
       # endif
       # if resource_db.city
-        <a href="{{url_for('resource_search', city=resource_db.city)}}">
-          <span class="label label-default">{{resource_db.city}}</span>
-        </a>
+        <span class="tag-button-filter">
+          <a href="{{url_for('resource_search', city=resource_db.city)}}">
+            <span class="label label-default">{{resource_db.city}}</span>
+          </a>
+          # if current_user and current_user.admin
+          <button class="btn btn-sm btn-success btn-ajax"
+              data-api-url="{{url_for('api.filter.create', label=resource_db.city, filter_property='city', filter_value=resource_db.city)}}"
+              title="اصنع فلتر"
+            >
+            <span class="fa fa-filter"></span>
+          </button>
+          # endif
+        </span>
       # endif
       # if resource_db.country
         <a href="{{url_for('resource_search', country=resource_db.country)}}">
