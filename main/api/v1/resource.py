@@ -2,6 +2,9 @@
 
 from __future__ import absolute_import
 
+import datetime
+import logging
+
 from google.appengine.api import images
 from google.appengine.ext import blobstore
 from google.appengine.ext import ndb
@@ -148,16 +151,19 @@ def resource_db_from_upload():
   blob_info_key = werkzeug.parse_options_header(headers)[1]['blob-key']
   blob_info = blobstore.BlobInfo.get(blob_info_key)
 
-  # print 'info'
-  # print blob_info.size
-  # print blob_info.md5_hash
-  # print blob_info.creation
-  # image_obj = images.Image(blob_key=blob_info.key())
-  # image_obj.im_feeling_lucky()
-  # output = image_obj.execute_transforms(parse_source_metadata=True)
-  # print image_obj.width
-  # print image_obj.height
-  # print image_obj.get_original_metadata()
+  logging.info('Photo Info')
+  logging.info('blob_info.size: {}'.format(blob_info.size))
+  logging.info('blob_info.md5_hash: {}'.format(blob_info.md5_hash))
+  logging.info('blob_info.creation: {}'.format(blob_info.creation))
+  image_obj = images.Image(blob_key=blob_info.key())
+  image_obj.im_feeling_lucky()
+  output = image_obj.execute_transforms(parse_source_metadata=True)
+  logging.info('image_obj.width: {}'.format(image_obj.width))
+  logging.info('image_obj.height: {}'.format(image_obj.height))
+
+  metadata = image_obj.get_original_metadata()
+  logging.info('metadata: {}'.format(metadata))
+  logging.info('type(metadata): {}'.format(type(metadata)))
 
   image_url = None
   if blob_info.content_type.startswith('image'):
@@ -166,6 +172,7 @@ def resource_db_from_upload():
     except:
       pass
 
+  taken_at = metadata.get('DateTimeOriginal')
   resource_db = model.Resource(
       user_key=auth.current_user_key(),
       blob_key=blob_info.key(),
@@ -173,6 +180,13 @@ def resource_db_from_upload():
       content_type=blob_info.content_type,
       size=blob_info.size,
       image_url=image_url,
+      metadata=metadata,
+      taken_at=datetime.datetime.fromtimestamp(taken_at) if taken_at else None,
+      camera_make=metadata.get('Make'),
+      camera_model=metadata.get('Model'),
+      md5_hash=blob_info.md5_hash,
+      width=image_obj.width,
+      height=image_obj.height,
       bucket_name=config.CONFIG_DB.bucket_name or None,
     )
   resource_db.put()

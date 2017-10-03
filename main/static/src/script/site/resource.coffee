@@ -115,9 +115,9 @@ window.init_approve_reject_resource_button = () ->
     $(this).attr('disabled', 'disabled')
     api_call 'PUT', $(this).data('api-url'), (err, result) =>
       if err
-        $(this).removeAttr('disabled')
         LOG 'Something went terribly wrong during update!', err
         return
+      $(this).removeAttr('disabled')
       target = $(this).data('target')
       redirect_url = $(this).data('redirect-url')
       if target

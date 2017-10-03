@@ -70,6 +70,27 @@
       # endif
     </h5>
 
+    <div>
+        # if current_user and current_user.admin
+        <div class="btn-group" role="group" aria-label="مراجعة الصورة">
+        <button class="btn btn-success btn-approve"
+            data-api-url="{{url_for('api.resource.approve', key=resource_db.key.urlsafe())}}"
+            data-redirect-url="{{url_for('resource_view', resource_id=resource_db.key.id())}}"
+            data-target="#{{resource_db.key.urlsafe()}}">
+          <span class="fa fa-fw fa-check"></span> وافق على الصورة
+        </button>
+        <button class="btn btn-warning btn-reject"
+            data-api-url="{{url_for('api.resource.reject', key=resource_db.key.urlsafe())}}"
+            data-target="#{{resource_db.key.urlsafe()}}"
+          >
+          <span class="fa fa-fw fa-times"></span> ارفض الصورة
+        </button>
+        <span class="btn btn-default">
+            {{resource_db.hotness}}
+          </span>
+      </div>
+      # endif
+    </div>
 
   </div>
 
@@ -83,6 +104,26 @@
 
         <div>
 
+            # if current_user and current_user.admin
+            <div class="btn-group" role="group" aria-label="مراجعة الصورة">
+            <button class="btn btn-success btn-approve"
+                data-api-url="{{url_for('api.resource.approve', key=resource_db.key.urlsafe())}}"
+                data-redirect-url="{{url_for('resource_view', resource_id=resource_db.key.id())}}"
+                data-target="#{{resource_db.key.urlsafe()}}">
+              <span class="fa fa-fw fa-check"></span> وافق على الصورة
+            </button>
+            <button class="btn btn-warning btn-reject"
+                data-api-url="{{url_for('api.resource.reject', key=resource_db.key.urlsafe())}}"
+                data-target="#{{resource_db.key.urlsafe()}}"
+              >
+              <span class="fa fa-fw fa-times"></span> ارفض الصورة
+            </button>
+            <span class="btn btn-default">
+                {{resource_db.hotness}}
+              </span>
+          </div>
+          # endif
+
           <!-- Upload  -->
           <a class="hide btn btn-default" href="{{url_for('resource_upload')}}" title="Upload">
             <span class="fa fa-plus fa-fw"></span>
@@ -93,7 +134,7 @@
             <span class="fa fa-cloud-download"></span> تنزيل الصورة بالحجم الأصلي
           </a>
 
-          # if current_user.admin or current_user.id == resource_db.user_key.id()
+          # if current_user and (current_user.admin or current_user.id == resource_db.user_key.id())
           <a class="btn btn-primary" href="{{url_for('resource_update', resource_id=resource_db.key.id())}}">
             <span class="fa fa-fw fa-pencil"></span> تعديل
           </a>
@@ -105,6 +146,7 @@
             <span class="fa fa-trash-o"></span> حذف
           </button>
           # endif
+
         </div>
 
       </div>
@@ -123,7 +165,7 @@
     <table class="table table-bordered table-striped">
       <tbody>
         <tr>
-          <th class="text-nowrap col-xs-1">اسم الملف</th>
+          <th class="text-nowrap col-xs-1">عنوان الصورة</th>
           <td class="col-xs-11">{{resource_db.name}}</td>
         </tr>
         <tr>
@@ -131,11 +173,11 @@
           <td class="col-xs-11">{{resource_db.content_type}}</td>
         </tr>
         <tr>
-          <th class="text-nowrap col-xs-1">حجم الملف</th>
+          <th class="text-nowrap col-xs-1">حجم الصورة</th>
           <td class="col-xs-11">{{resource_db.size_human}}</td>
         </tr>
         <tr>
-          <th class="text-nowrap col-xs-1">تاريخ صنع الملف</th>
+          <th class="text-nowrap col-xs-1">تاريخ رفع الصورة</th>
           <td class="col-xs-11">
             <time datetime="{{resource_db.created}}">
               {{resource_db.created.strftime('%Y-%m-%d')}}
@@ -143,14 +185,73 @@
           </td>
         </tr>
         <tr>
-          <th class="text-nowrap col-xs-1">تاريخ تعديل الملف</th>
+          <th class="text-nowrap col-xs-1">تاريخ تعديل الصورة</th>
           <td class="col-xs-11">
             <time datetime="{{resource_db.modified}}">
               {{resource_db.modified.strftime('%Y-%m-%d')}}
             </time>
           </td>
         </tr>
-      </tbody>
+        <tr>
+          <th class="text-nowrap col-xs-1">أبعاد الصورة</th>
+          <td class="col-xs-11">
+            {{resource_db.width}}x{{resource_db.height}}
+          </td>
+        </tr>
+        # if resource_db.taken_at
+        <tr>
+          <th class="text-nowrap col-xs-1">تاريخ أخذ الصورة</th>
+          <td class="col-xs-11">
+            <time datetime="{{resource_db.taken_at}}">
+              {{resource_db.taken_at.strftime('%Y-%m-%d')}}
+            </time>
+          </td>
+        </tr>
+        <tr>
+            <th class="text-nowrap col-xs-1">وقت أخذ الصورة</th>
+            <td class="col-xs-11">
+              {{resource_db.taken_at.strftime('%H:%M:%S')}}
+            </td>
+          </tr>
+          # endif
+
+        # if resource_db.camera_make
+        <tr>
+          <th class="text-nowrap col-xs-1">صانع الكاميرة</th>
+          <td class="col-xs-11">
+            {{resource_db.camera_make}}
+          </td>
+        </tr>
+        # endif
+
+        # if resource_db.camera_model
+        <tr>
+          <th class="text-nowrap col-xs-1">موديل الكاميرة</th>
+          <td class="col-xs-11">
+            {{resource_db.camera_model}}
+          </td>
+        </tr>
+        # endif
+
+        <tr>
+            <th class="text-nowrap col-xs-1">بيانات وصفية</th>
+            <td class="col-xs-12">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent=".panel-group" href="#{{slugify('metadata')}}">بيانات وصفية</a>
+                  </h4>
+                </div>
+                <div id="{{slugify('metadata')}}" class="panel-collapse collapse">
+                  <div class="panel-body text-left metadata">
+                      <pre>{{resource_db.metadata_pretty}}</pre>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
     </table>
   </div>
 

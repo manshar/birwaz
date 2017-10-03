@@ -20,18 +20,36 @@
   <table class="table table-bordered table-hover {{'hide' if resource_dbs | count == 0}}">
     <thead>
       <tr>
-        <th class="col-xs-5">{{utils.order_by_link('name', 'Name')}}</th>
-        <th class="col-xs-3 hidden-xs">{{utils.order_by_link('content_type', 'Content Type')}}</th>
-        <th class="col-xs-2 hidden-xs">{{utils.order_by_link('created', 'Created')}}</th>
-        <th class="col-xs-1 text-right">{{utils.order_by_link('size', 'Size')}}</th>
-        <th class="col-xs-1">Actions</th>
+        <th class="col-xs-5 text-right">عرض الصورة</th>
+        <th class="col-xs-2 text-right">{{utils.order_by_link('name', 'عنوان الصورة')}}</th>
+        <th class="col-xs-1 text-right hidden-xs">{{utils.order_by_link('created', 'حملت قبل')}}</th>
+        <th class="col-xs-1 text-right">{{utils.order_by_link('size', 'حجم')}}</th>
+        <th class="col-xs-1 text-right">الأدوات</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody class="text-right">
       # for resource_db in resource_dbs
         <tr id="{{resource_db.key.urlsafe()}}" class="row-link" data-href="{{url_for('resource_view', resource_id=resource_db.key.id())}}">
+          <td class="">
+            <div class="card">
+              <a href="{{url_for('resource_view', resource_id=resource_db.key.id())}}">
+                <img class="card-img-top img-fluid"
+                  src="{{resource_db.image_url}}=w300"
+                  srcset="{{resource_db.image_url}}=w600 300w, {{resource_db.image_url}}=w900 450w, {{resource_db.image_url}}=w1400 800w, {{resource_db.image_url}}=w2400 1200w"
+                  sizes="(min-width:700px) 33vw, (min-width: 400px) 100vw"
+                  width="100%" alt="{{resource_db.name}}">
+              </a>
+              <div class="card-block {{'hide' if html_class == 'profile-view'}}">
+                <h4 class="card-title text-right">
+                  <a href="{{url_for('profile_view', user_id=resource_db.user_key.id())}}">
+                    <img class="img-circle" src="{{resource_db.user_key.get().avatar_url_size(64)}}" alt="Avatar of {{resource_db.user_key.get().name}}" width="32">
+                      {{resource_db.user_key.get().name}}
+                  </a>
+                </h4>
+              </div>
+            </div>
+          </td>
           <td class="ellipsis">{{resource_db.name}}</td>
-          <td class="hidden-xs">{{resource_db.content_type}}</td>
           <td class="hidden-xs">
             <time datetime="{{resource_db.created}}">
               {{resource_db.created.strftime('%Y-%m-%d')}}
