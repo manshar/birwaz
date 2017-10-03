@@ -149,9 +149,9 @@ def generate_next_url(next_cursor, base_url=None, cursor_name='cursor'):
     return None
   base_url = base_url or flask.request.base_url
   args = flask.request.args.to_dict()
-  args[cursor_name] = next_cursor
-  return '%s?%s' % (base_url, urllib.urlencode(args))
-
+  unidict = dict((k.encode('utf-8'), v.encode('utf-8')) for k, v in args.items())
+  unidict[cursor_name] = next_cursor
+  return '%s?%s' % (base_url.encode('utf-8'), urllib.urlencode(unidict))
 
 def uuid():
   return uuid4().hex
