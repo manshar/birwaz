@@ -172,8 +172,6 @@ def resource_update(resource_id):
 
   if form.validate_on_submit():
     form.populate_obj(resource_db)
-    print 'form.new_tags.data'
-    print form.new_tags.data.encode('utf8')
     if form.new_tags.data:
       new_tags = re.split(ur'[,\u060c]', form.new_tags.data)
       resource_db.tags = set(
@@ -181,7 +179,10 @@ def resource_update(resource_id):
         list(set([tag.strip() for tag in new_tags if tag])))
     resource_db.tags = [tag for tag in resource_db.tags if len(tag) > 0]
 
-    print resource_db.tags
+    resource_db.city = (resource_db.city or '').strip()
+    resource_db.country = (resource_db.country or '').strip()
+    resource_db.address_first_line = (resource_db.address_first_line or '').strip()
+    resource_db.address_second_line = (resource_db.address_second_line or '').strip()
     resource_db.put()
     return flask.redirect(flask.url_for(
       'resource_view', resource_id=resource_db.key.id(),
