@@ -42,7 +42,6 @@ def profile():
 
 @app.route('/profile/<int:user_id>/', methods=['GET'])
 def profile_view(user_id=0):
-  print user_id
   if user_id:
     user_db = model.User.get_by_id(user_id)
   if not user_db:

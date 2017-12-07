@@ -156,7 +156,8 @@ def resource_db_from_upload():
   logging.info('blob_info.md5_hash: {}'.format(blob_info.md5_hash))
   logging.info('blob_info.creation: {}'.format(blob_info.creation))
   image_obj = images.Image(blob_key=blob_info.key())
-  image_obj.im_feeling_lucky()
+  # image_obj.im_feeling_lucky()
+  image_obj.resize(width=100)
   output = image_obj.execute_transforms(parse_source_metadata=True)
   logging.info('image_obj.width: {}'.format(image_obj.width))
   logging.info('image_obj.height: {}'.format(image_obj.height))
@@ -173,6 +174,8 @@ def resource_db_from_upload():
       pass
 
   taken_at = metadata.get('DateTimeOriginal')
+  if taken_at:
+    taken_at = datetime.datetime.fromtimestamp(float(taken_at))
   resource_db = model.Resource(
       user_key=auth.current_user_key(),
       blob_key=blob_info.key(),
@@ -181,12 +184,12 @@ def resource_db_from_upload():
       size=blob_info.size,
       image_url=image_url,
       metadata=metadata,
-      taken_at=datetime.datetime.fromtimestamp(taken_at) if taken_at else None,
+      taken_at=taken_at,
       camera_make=metadata.get('Make'),
       camera_model=metadata.get('Model'),
       md5_hash=blob_info.md5_hash,
-      width=image_obj.width,
-      height=image_obj.height,
+      width=metadata.get('ImageWidth') or image_obj.width,
+      height=metadata.get('ImageLength') or image_obj.height,
       bucket_name=config.CONFIG_DB.bucket_name or None,
     )
   resource_db.put()
